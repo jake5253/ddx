@@ -94,6 +94,7 @@ while test $# -gt 0 ; do
             shift ;;
         -u|--ssh_username)
             SSHUsername=$1
+            shift ;;
         *)  echo "ERROR: Missing correct option, try $0 to get help"
             exit 2 ;;
     esac
