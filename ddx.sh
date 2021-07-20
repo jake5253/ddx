@@ -92,7 +92,7 @@ while test $# -gt 0 ; do
         -k|--keep_logs) 
             KeepLogs=yes
             shift ;;
-        -u|--ssh_username)
+        -u|--ssh_username) shift;
             SSHUsername=$1
             shift ;;
         *)  echo "ERROR: Missing correct option, try $0 to get help"
