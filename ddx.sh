@@ -41,6 +41,7 @@ fi
 MaxSSHConnections=100
 KeepLogs=no
 SSHPort=22 
+SSHUsername=root
 ProcessNumber=8 # Number of transfer processes in parallel, change only if you know what you are doing!
 TransferDir=${HOME}
 RemoteTransferDir=${HOME}
@@ -91,6 +92,8 @@ while test $# -gt 0 ; do
         -k|--keep_logs) 
             KeepLogs=yes
             shift ;;
+        -u|--ssh_username)
+            SSHUsername=$1
         *)  echo "ERROR: Missing correct option, try $0 to get help"
             exit 2 ;;
     esac
@@ -103,7 +106,7 @@ if [ ! ${GivenReportFile} ] ; then
     Report=$(pwd)/report_ddt_${JobTime}${JobID}.log
     LogDir=${TransferDir}/DiskTransfer_${JobTime}_${JobID} 
     RemoteLogDir=${RemoteTransferDir}/DiskTransfer_${JobTime}_${JobID} 
-    SSH_command="ssh -p $SSHPort root@${TargetHost}"
+    SSH_command="ssh -p $SSHPort $SSHUsername@${TargetHost}"
     SCP_command="scp -P $SSHPort"
 
     (
@@ -408,7 +411,7 @@ function RemoteStatusImageToTargetDevice {
     " > ${TmpStatusFile}
 
     chmod a+x ${TmpStatusFile}
-    $SCP_command ${TmpStatusFile} root@${TargetHost}:${RemoteStatus}
+    $SCP_command ${TmpStatusFile} $SSHUsername@${TargetHost}:${RemoteStatus}
 }
 
 function ImageToTargetDevice {
